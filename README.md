@@ -2,6 +2,16 @@
 
 为 DeepSeek Harness（dsh）Web 界面提供永雏塔菲（AceTaffy）配色与场景背景的主题插件。
 
+<p align="center">
+  <img src="docs/screenshot-dark.png" width="720" alt="暗色主题">
+  <br><sub>暗色主题</sub>
+</p>
+
+<p align="center">
+  <img src="docs/screenshot-light.png" width="720" alt="浅色主题">
+  <br><sub>浅色主题</sub>
+</p>
+
 ## 素材来源
 
 全部素材取自 [永雏塔菲图片站 (image.acetaffy.org)](https://image.acetaffy.org/) 与
