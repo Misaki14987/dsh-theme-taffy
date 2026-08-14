@@ -174,7 +174,8 @@ window.__ModuleLoader__.load({
 			// ── 侧栏：半透明（不用 backdrop-filter，避免成为 fixed 定位的 containing block）──
 			"html[data-dsh-taffy-skin] body[data-ds-dark-theme] [class*=\"sidebarCol\"]{background:linear-gradient(180deg,rgba(30,21,39,0.78),rgba(33,23,43,0.68)) !important;border-right:1px solid rgba(253,119,158,0.16) !important}",
 			"html[data-dsh-taffy-skin] body:not([data-ds-dark-theme]) [class*=\"sidebarCol\"]{background:linear-gradient(180deg,rgba(255,243,248,0.74),rgba(255,249,251,0.64)) !important;border-right:1px solid rgba(253,119,158,0.20) !important}",
-			// ── 会话根（active / settling 半透明，hero 全透明）──────────────────
+			// ── 会话根（active / settling 磨砂半透明，hero 全透明）──────────────
+			"html[data-dsh-taffy-skin] [data-phase=\"active\"],html[data-dsh-taffy-skin] [data-phase=\"settling\"]{-webkit-backdrop-filter:blur(16px) saturate(108%);backdrop-filter:blur(16px) saturate(108%)}",
 			"html[data-dsh-taffy-skin] body[data-ds-dark-theme] [data-phase=\"active\"],html[data-dsh-taffy-skin] body[data-ds-dark-theme] [data-phase=\"settling\"]{background:rgba(33,23,43,0.86) !important}",
 			"html[data-dsh-taffy-skin] body:not([data-ds-dark-theme]) [data-phase=\"active\"],html[data-dsh-taffy-skin] body:not([data-ds-dark-theme]) [data-phase=\"settling\"]{background:rgba(255,249,251,0.86) !important}",
 			"html[data-dsh-taffy-skin] [data-phase=\"hero\"]{position:relative;background:transparent !important}",
@@ -184,7 +185,8 @@ window.__ModuleLoader__.load({
 			"html[data-dsh-taffy-skin] body[data-ds-dark-theme] [data-phase=\"hero\"]::after{background:radial-gradient(ellipse 74% 58% at 50% 46%,rgba(33,23,43,0.60),rgba(33,23,43,0.30) 56%,rgba(33,23,43,0.06) 100%)}",
 			"html[data-dsh-taffy-skin] body:not([data-ds-dark-theme]) [data-phase=\"hero\"]::after{background:radial-gradient(ellipse 74% 58% at 50% 46%,rgba(255,249,251,0.64),rgba(255,249,251,0.32) 56%,rgba(255,249,251,0.06) 100%)}",
 			"html[data-dsh-taffy-skin] [data-phase=\"hero\"] > *{position:relative;z-index:1}",
-			// ── 头部：半透明（不用 backdrop-filter）──────────────────────────────
+			// ── 头部：磨砂半透明 ───────────────────────────────────────────────
+			"html[data-dsh-taffy-skin] [data-phase] [class*=\"header\"]{-webkit-backdrop-filter:blur(14px) saturate(108%);backdrop-filter:blur(14px) saturate(108%)}",
 			"html[data-dsh-taffy-skin] body[data-ds-dark-theme] [data-phase] [class*=\"header\"]{background:rgba(41,29,54,0.72) !important}",
 			"html[data-dsh-taffy-skin] body:not([data-ds-dark-theme]) [data-phase] [class*=\"header\"]{background:rgba(255,253,254,0.72) !important}",
 			// ── 输入区座位 + 卡片：透明浮在背景上（不磨砂、不遮挡）────────────
