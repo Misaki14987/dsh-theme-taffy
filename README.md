@@ -1,6 +1,6 @@
 # dsh-client-ui-theme-taffy — 永雏塔菲主题
 
-为 DeepSeek Harness（dsh）Web 界面提供永雏塔菲（AceTaffy）配色与场景背景的主题插件。
+为 DeepSeek Harness（dsh）Web 界面提供永雏塔菲（AceTaffy）配色与场景背景的主题插件。Github中也已有相关的美化主题插件，功能更加完善，因而本主题仅为自用，设计仅符合个人美学
 
 <p align="center">
   <img src="docs/screenshot-dark.png" width="720" alt="暗色主题">
