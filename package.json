@@ -1,6 +1,6 @@
 {
   "name": "dsh-client-ui-theme-taffy",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "永雏塔菲 (AceTaffy) theme for the dsh web UI.",
   "type": "module",
   "main": "lib/index.js",

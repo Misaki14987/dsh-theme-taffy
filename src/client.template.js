@@ -92,15 +92,15 @@ window.__ModuleLoader__.load({
 			"--dsw-alias-interactive-bg-hover-danger": { light: "rgba(229, 72, 77, 0.08)", dark: "rgba(255, 107, 122, 0.16)" },
 			"--dsw-alias-interactive-bg-hover-solid": { light: "#FDF1F6", dark: "#382B4A" },
 			// ── labels ──────────────────────────────────────────────────────────
-			"--dsw-alias-label-caption": { light: "#A98AA0", dark: "#9C86A2" },
-			"--dsw-alias-label-dimmed": { light: "#D6BDCE", dark: "#6E5A76" },
+			"--dsw-alias-label-caption": { light: "#97788F", dark: "#A894B0" },
+			"--dsw-alias-label-dimmed": { light: "#C6A8BB", dark: "#7A6684" },
 			"--dsw-alias-label-primary": { light: "#3A2438", dark: "#FDEFF4" },
 			"--dsw-alias-label-primary-bluish": { light: "#C2507A", dark: "#FFB8CF" },
 			"--dsw-alias-label-primary-dimmed": { light: "#2E1B2C", dark: "#F6DCE6" },
 			"--dsw-alias-label-primary-foreground": { light: "#FFFFFF", dark: "#21172B" },
 			"--dsw-alias-label-primary-inverted": { light: "#FFFFFF", dark: "#21172B" },
 			"--dsw-alias-label-secondary": { light: "#7C5F75", dark: "#CBB3C6" },
-			"--dsw-alias-label-tertiary": { light: "#A98AA0", dark: "#9C86A2" },
+			"--dsw-alias-label-tertiary": { light: "#97788F", dark: "#A894B0" },
 			// ── markdown ────────────────────────────────────────────────────────
 			"--dsw-alias-markdown-citation": { light: "#FBE8F0", dark: "#382B4A" },
 			"--dsw-alias-markdown-code-block": { light: "#FDF1F6", dark: "#1C1326" },
@@ -110,6 +110,19 @@ window.__ModuleLoader__.load({
 			"--dsw-alias-markdown-inline-code": { light: "#FBE8F0", dark: "#3A2B4A" },
 			"--dsw-alias-markdown-placeholder": { light: "#FDF1F6", dark: "#2E2338" },
 			"--dsw-alias-markdown-tag": { light: "#FBE8F0", dark: "#382C46" },
+			// ── shiki syntax highlight — pink-mauve, hue-separated for legibility ──
+			// (foreground/background 已由 base shiki.css 别名到 markdown-code-block，
+			//  这里只覆盖 token 语义色：keyword 用品牌粉 #FD779E，其余保持在各自色相内
+			//  向玫瑰/薰衣草偏，既统一又保留「关键字/字符串/函数」的语义区分。)
+			"--shiki-token-constant": { light: "#1F6FB8", dark: "#7CC8F7" },
+			"--shiki-token-string": { light: "#2F8A5B", dark: "#8CE99A" },
+			"--shiki-token-comment": { light: "#9C7A8C", dark: "#A98AA0" },
+			"--shiki-token-keyword": { light: "#C23B74", dark: "#FD779E" },
+			"--shiki-token-parameter": { light: "#C0563F", dark: "#FFA94D" },
+			"--shiki-token-function": { light: "#7A4FB0", dark: "#C4A5F5" },
+			"--shiki-token-string-expression": { light: "#2F8A5B", dark: "#8CE99A" },
+			"--shiki-token-punctuation": { light: "#6E5A76", dark: "#CBB3C6" },
+			"--shiki-token-link": { light: "#B6456B", dark: "#FFB8CF" },
 			// ── scrollbar — her hair-pink thumb ─────────────────────────────────
 			"--dsw-alias-scrollbar-bg-l1": { light: "#F4C3D4", dark: "#4A3A58" },
 			"--dsw-alias-scrollbar-bg-l2": { light: "#F4C3D4", dark: "#5A4668" },
@@ -162,16 +175,19 @@ window.__ModuleLoader__.load({
 		 */
 		const DECOR_CSS = [
 			// ── 基础装饰 ─────────────────────────────────────────────────────────
-			"::selection{background:rgba(253,119,158,0.88);color:#FFFFFF}",
-			":focus-visible{outline-color:#FD779E}",
-			"::-webkit-scrollbar-thumb{border-radius:999px}",
+			"html[data-dsh-taffy-skin] ::selection{background:rgba(253,119,158,0.88);color:#FFFFFF}",
+			"html[data-dsh-taffy-skin] :focus-visible{outline-color:#FD779E}",
+			"html[data-dsh-taffy-skin] ::-webkit-scrollbar-thumb{border-radius:999px}",
+			"html[data-dsh-taffy-skin] ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#FD779E,#EAB5DD) !important}",
+			"html[data-dsh-taffy-skin] ::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#FF8FAD,#F2C6E8) !important}",
 			// ── 全屏场景背景（暗/浅各一张）───────────────────────────────────────
 			"html[data-dsh-taffy-skin] body{background-color:var(--dsw-alias-bg-base);background-size:cover;background-attachment:fixed;background-repeat:no-repeat}",
 			"html[data-dsh-taffy-skin] body[data-ds-dark-theme]{background-image:var(--taffy-art-dark);background-position:var(--taffy-art-dark-position,50% 45%)}",
 			"html[data-dsh-taffy-skin] body:not([data-ds-dark-theme]){background-image:var(--taffy-art-light);background-position:var(--taffy-art-light-position,50% 45%)}",
 			// 让三栏 frame 透明，背景场景从后方透出
 			"html[data-dsh-taffy-skin] [class*=\"frame\"]{background:transparent !important}",
-			// ── 侧栏：半透明（不用 backdrop-filter，避免成为 fixed 定位的 containing block）──
+			// ── 侧栏：半透明；显式高于 body 氛围层，避免会话切换时被压到后方 ────────
+			"html[data-dsh-taffy-skin] [class*=\"sidebarCol\"]{position:relative;z-index:2;isolation:isolate}",
 			"html[data-dsh-taffy-skin] body[data-ds-dark-theme] [class*=\"sidebarCol\"]{background:linear-gradient(180deg,rgba(30,21,39,0.78),rgba(33,23,43,0.68)) !important;border-right:1px solid rgba(253,119,158,0.16) !important}",
 			"html[data-dsh-taffy-skin] body:not([data-ds-dark-theme]) [class*=\"sidebarCol\"]{background:linear-gradient(180deg,rgba(255,243,248,0.74),rgba(255,249,251,0.64)) !important;border-right:1px solid rgba(253,119,158,0.20) !important}",
 			// ── 会话根（active / settling 磨砂半透明，hero 全透明）──────────────
@@ -189,22 +205,39 @@ window.__ModuleLoader__.load({
 			"html[data-dsh-taffy-skin] [data-phase] [class*=\"header\"]{-webkit-backdrop-filter:blur(14px) saturate(108%);backdrop-filter:blur(14px) saturate(108%)}",
 			"html[data-dsh-taffy-skin] body[data-ds-dark-theme] [data-phase] [class*=\"header\"]{background:rgba(41,29,54,0.72) !important}",
 			"html[data-dsh-taffy-skin] body:not([data-ds-dark-theme]) [data-phase] [class*=\"header\"]{background:rgba(255,253,254,0.72) !important}",
-			// ── 输入区座位 + 卡片：透明浮在背景上（不磨砂、不遮挡）────────────
+			// ── 输入区：seat 透明，card 用高不透明磨砂面隔开背景文字 ─────────────
 			"html[data-dsh-taffy-skin] [data-composer-seat]{background:transparent !important}",
-			"html[data-dsh-taffy-skin] [data-composer-card]{background:transparent !important;box-shadow:none !important;border-color:transparent !important}",
+			"html[data-dsh-taffy-skin] [data-composer-card]{-webkit-backdrop-filter:blur(20px) saturate(112%);backdrop-filter:blur(20px) saturate(112%);box-shadow:0 12px 36px rgba(20,10,30,0.20),0 0 0 1px rgba(253,119,158,0.08) !important}",
+			"html[data-dsh-taffy-skin] body[data-ds-dark-theme] [data-composer-card]{background:rgba(41,29,54,0.92) !important;border-color:rgba(253,119,158,0.28) !important}",
+			"html[data-dsh-taffy-skin] body:not([data-ds-dark-theme]) [data-composer-card]{background:rgba(255,253,254,0.92) !important;border-color:rgba(253,119,158,0.30) !important}",
 			// ── 消息气泡：半透明，透出背景 ─────────────────────────────────────
 			"html[data-dsh-taffy-skin] [class*=\"bubble\"]{box-shadow:0 8px 24px rgba(0,0,0,0.08)}",
 			"html[data-dsh-taffy-skin] body[data-ds-dark-theme] [class*=\"bubble\"]{background:rgba(48,34,63,0.72) !important}",
 			"html[data-dsh-taffy-skin] body:not([data-ds-dark-theme]) [class*=\"bubble\"]{background:rgba(253,235,242,0.72) !important}",
 			// ── hero 吉祥物 ─────────────────────────────────────────────────────
-			"[data-taffy-hero-img]{width:34px;height:34px;object-fit:contain;animation:taffy-bob 3.2s ease-in-out infinite}",
+			// hero 吉祥物：放大 + 柔光；浮动/进场动画统一放进 reduced-motion 媒体查询
+			"[data-taffy-hero-img]{width:40px;height:40px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(253,119,158,0.45))}",
 			"@keyframes taffy-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}",
+			"@keyframes taffy-rise{from{opacity:0}to{opacity:1}}",
+			"@keyframes taffy-twinkle{0%,100%{opacity:0.5;transform:scale(1)}50%{opacity:0.95;transform:scale(1.15)}}",
+			// ── hero 首屏：蓝色光晕 → 塔菲粉；签名副标题 ─────────────────────────
+			"html[data-dsh-taffy-skin] [class*=\"heroGlow\"] ellipse{fill:#FD779E}",
+			"[data-taffy-signature]{text-align:center;font-size:12px;line-height:18px;letter-spacing:.12em;color:var(--dsw-alias-label-caption);font-weight:500}",
 			// ── 发送按钮 → 塔菲表情包铺满整个按钮 ────────────────────────────────
-			"html[data-dsh-taffy-skin] button[aria-label=\"发送消息\"],html[data-dsh-taffy-skin] button[aria-label=\"Send message\"]{background:linear-gradient(135deg,#FD779E,#E85C8A) !important}",
-			"html[data-dsh-taffy-skin] button[aria-label=\"发送消息\"]:hover:not(:disabled),html[data-dsh-taffy-skin] button[aria-label=\"Send message\"]:hover:not(:disabled){background:linear-gradient(135deg,#FF8FAD,#F0659B) !important}",
+			"html[data-dsh-taffy-skin] button[aria-label=\"发送消息\"],html[data-dsh-taffy-skin] button[aria-label=\"Send message\"]{background:linear-gradient(135deg,#FD779E,#E85C8A) !important;transition:box-shadow .25s ease,transform .15s ease}",
+			"html[data-dsh-taffy-skin] button[aria-label=\"发送消息\"]:hover:not(:disabled),html[data-dsh-taffy-skin] button[aria-label=\"Send message\"]:hover:not(:disabled){background:linear-gradient(135deg,#FF8FAD,#F0659B) !important;box-shadow:0 0 0 4px rgba(253,119,158,0.28),0 6px 18px rgba(253,119,158,0.45);transform:translateY(-1px)}",
 			"html[data-dsh-taffy-skin] button[aria-label=\"发送消息\"] img,html[data-dsh-taffy-skin] button[aria-label=\"Send message\"] img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}",
 			// ── 右下角：渐变五角星水印 ─────────────────────────────────────────
-			"[data-taffy-star]{position:fixed;right:18px;bottom:14px;width:16px;height:16px;background:linear-gradient(135deg,#FD779E,#EAB5DD);clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);opacity:0.5;pointer-events:none;z-index:2147483647;filter:drop-shadow(0 0 6px rgba(253,119,158,0.8))}"
+			"[data-taffy-star]{position:fixed;right:18px;bottom:14px;width:16px;height:16px;background:linear-gradient(135deg,#FD779E,#EAB5DD);clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);opacity:0.5;pointer-events:none;z-index:2147483647;filter:drop-shadow(0 0 6px rgba(253,119,158,0.8))}",
+			// ── 头部药丸：hover 轻抬 + 柔光 ─────────────────────────────────────
+			"[data-taffy-header]{transition:transform .2s ease,box-shadow .2s ease}",
+			"[data-taffy-header]:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(253,119,158,0.35)}",
+			// ── 漂浮粒子：DOM 注入的星屑，逐颗漂浮/闪烁（reduced-motion 下静止）──
+			"[data-taffy-particles]{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}",
+			"[data-taffy-particle]{position:absolute;border-radius:50%;background:radial-gradient(circle at 50% 50%,#FD779E 0%,#EAB5DD 55%,rgba(234,181,221,0) 100%);opacity:var(--p-opacity,0.45);filter:drop-shadow(0 0 3px rgba(253,119,158,0.6))}",
+			"@keyframes taffy-float{0%{transform:translateY(20px) translateX(0);opacity:0}30%{opacity:var(--p-opacity,0.45)}70%{opacity:var(--p-opacity,0.45)}100%{transform:translateY(-52px) translateX(8px);opacity:0}}",
+			// ── 动效：统一尊重 prefers-reduced-motion ───────────────────────────
+			"@media (prefers-reduced-motion: no-preference){[data-taffy-hero-img]{animation:taffy-bob 3.2s ease-in-out infinite,taffy-rise .6s ease-out both}[data-taffy-star]{animation:taffy-twinkle 4.5s ease-in-out infinite}[data-taffy-particle]{animation-name:taffy-float;animation-timing-function:linear;animation-iteration-count:infinite;animation-fill-mode:both}}"
 		].join("\n");
 		/** Inject the decoration stylesheet once, claimed by the plugin CSS inventory. */
 		function injectDecor() {
@@ -269,11 +302,53 @@ window.__ModuleLoader__.load({
 				star.setAttribute("aria-hidden", "true");
 				document.body.appendChild(star);
 			}
+			// 漂浮粒子层
+			injectParticles();
 		}
-		// Inject at factory scope so the module system's style inventory claims them.
+		/** 漂浮星屑：固定全屏容器 + 若干逐颗漂浮的粒子（reduced-motion 下静止）。 */
+		function injectParticles() {
+			if (typeof document === "undefined") return;
+			if (document.querySelector('[data-taffy-particles]') !== null) return;
+			const wrap = document.createElement("div");
+			wrap.setAttribute("data-taffy-particles", "");
+			wrap.setAttribute("aria-hidden", "true");
+			// [left%, top%, size(px), duration(s), opacity]
+			const seeds = [
+				[15, 22, 3, 9, 0.5], [72, 12, 2, 11, 0.4], [86, 62, 3, 8, 0.45],
+				[38, 74, 2, 12, 0.5], [56, 36, 3, 10, 0.4], [24, 54, 2, 9, 0.45],
+				[62, 88, 3, 11, 0.5], [45, 8, 2, 10, 0.4], [8, 40, 2, 12, 0.45],
+				[92, 30, 3, 9, 0.5], [30, 90, 2, 11, 0.4], [78, 80, 3, 10, 0.45]
+			];
+			for (let i = 0; i < seeds.length; i += 1) {
+				const [x, y, size, dur, op] = seeds[i];
+				const p = document.createElement("span");
+				p.setAttribute("data-taffy-particle", "");
+				p.style.left = x + "%";
+				p.style.top = y + "%";
+				p.style.width = size + "px";
+				p.style.height = size + "px";
+				p.style.setProperty("--p-opacity", String(op));
+				p.style.animationDuration = dur + "s";
+				p.style.animationDelay = (-((i * 7) % 13) / 4).toFixed(2) + "s";
+				wrap.appendChild(p);
+			}
+			document.body.appendChild(wrap);
+		}
+		/** 关闭主题时撤掉皮肤门控、场景变量与注入的装饰 DOM。 */
+		function unmountSkinDom() {
+			if (typeof document === "undefined") return;
+			const root = document.documentElement;
+			root.removeAttribute("data-dsh-taffy-skin");
+			root.style.removeProperty("--taffy-art-dark");
+			root.style.removeProperty("--taffy-art-dark-position");
+			root.style.removeProperty("--taffy-art-light");
+			root.style.removeProperty("--taffy-art-light-position");
+			document.querySelector('[data-taffy-star]')?.remove();
+			document.querySelector('[data-taffy-particles]')?.remove();
+		}
+		// 只在工厂作用域注入样式表（让模块系统的样式清单接管它）；
+		// 皮肤的实际启用（favicon / 门控 / 粒子 / 五角星）由 apply 按开关状态挂载。
 		injectDecor();
-		setFavicon();
-		setArtVars();
 		//#endregion
 		//#region lib/types/client/decorator.js
 		/**
@@ -298,6 +373,17 @@ window.__ModuleLoader__.load({
 						img.setAttribute("draggable", "false");
 						hitbox.prepend(img);
 					}
+				}
+				// hero 签名副标题：在 headline 与 body 之间插入一行签名（idempotent）。
+				const headline = hitbox.parentElement;
+				const body = headline?.nextElementSibling;
+				const stack = headline?.parentElement;
+				if (stack && body && stack.querySelector('[data-taffy-signature]') === null) {
+					const sig = document.createElement("div");
+					sig.setAttribute("data-taffy-signature", "");
+					sig.setAttribute("aria-hidden", "true");
+					sig.textContent = "永雏塔菲 · AceTaffy";
+					stack.insertBefore(sig, body);
 				}
 			}
 			// New Session icon → kawaii pink chat bubble.
@@ -389,23 +475,127 @@ window.__ModuleLoader__.load({
 		//#region lib/types/client/index.js
 		/** Required services: the theme seat and the slots registry. */
 		const inject = ["theme", "slots"];
+		/** 主题开关的 localStorage 键与默认值（默认开启）。 */
+		const SKIN_STORAGE_KEY = "dsh-client-ui-theme-taffy:enabled";
+		function readPersistedEnabled() {
+			try {
+				const v = localStorage.getItem(SKIN_STORAGE_KEY);
+				if (v === null) return true;
+				return v !== "0" && v !== "false";
+			} catch {
+				return true;
+			}
+		}
+		function writePersistedEnabled(v) {
+			try {
+				localStorage.setItem(SKIN_STORAGE_KEY, v ? "1" : "0");
+			} catch { /* 无 localStorage（如隐私模式）下仅本次会话生效 */ }
+		}
+		/** 皮肤开关状态 + 变更监听（工厂作用域单例）。 */
+		let skinEnabled = readPersistedEnabled();
+		const skinListeners = new Set();
+		function setSkinEnabled(v) {
+			if (skinEnabled === v) return;
+			skinEnabled = v;
+			writePersistedEnabled(v);
+			for (const fn of skinListeners) fn(v);
+		}
 		/**
-		 * Client plugin body: stack the Taffy token layer over the active palette,
-		 * run the DOM decorator, and register the header link pill.
-		 * @param ctx - client root context.
-		 * @returns disposer removing the token layer and observer.
+		 * 挂载整块皮肤：favicon + 场景门控/粒子/五角星 + token 覆盖层 +
+		 * DOM 装饰器 + 头部药丸。返回对应 disposer。
 		 */
-		function apply(ctx) {
+		function mountSkin(ctx) {
+			setFavicon();
+			setArtVars();
 			const disposeLayer = ctx.theme.overrideTokens(LAYER_SOURCE, TOKENS);
 			const disposeDecor = startDecorator();
-			ctx.slots.inject("conversation.session.header.actions", () => ctx.slots.register({
+			const disposePill = ctx.slots.inject("conversation.session.header.actions", () => ctx.slots.register({
 				name: "conversation.session.header.actions",
 				id: "taffy-link",
 				order: 30
 			}, TaffyHeaderAction));
 			return () => {
+				disposePill();
 				disposeDecor();
 				disposeLayer();
+				unmountSkinDom();
+			};
+		}
+		/** 外观（General）设置行：一个持久化的「永雏塔菲主题」开关。 */
+		function TaffyToggleRow() {
+			const [enabled, setEnabled] = react.useState(() => skinEnabled);
+			return jsxRuntime.jsxs("div", {
+				style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, width: "100%" },
+				children: [jsxRuntime.jsx("span", {
+					style: { fontSize: 14, lineHeight: "20px", color: "var(--dsw-alias-label-primary)" },
+					children: "永雏塔菲主题"
+				}), jsxRuntime.jsx("button", {
+					type: "button",
+					"aria-pressed": enabled,
+					"data-taffy-toggle": "",
+					onClick: () => {
+						const next = !enabled;
+						setEnabled(next);
+						setSkinEnabled(next);
+					},
+					style: {
+						appearance: "none",
+						border: "1px solid var(--dsw-alias-border-l3)",
+						background: enabled ? "var(--dsw-alias-button-primary-fill)" : "var(--dsw-alias-bg-overlay)",
+						color: enabled ? "var(--dsw-alias-label-primary-inverted)" : "var(--dsw-alias-label-secondary)",
+						width: 44,
+						height: 24,
+						borderRadius: 999,
+						cursor: "pointer",
+						position: "relative",
+						transition: "background .2s ease",
+						fontSize: 12,
+						lineHeight: 1,
+						padding: 0
+					},
+					children: jsxRuntime.jsx("span", {
+						style: {
+							display: "block",
+							width: 18,
+							height: 18,
+							borderRadius: "50%",
+							background: "#FFFFFF",
+							position: "absolute",
+							top: 2,
+							left: enabled ? 23 : 2,
+							transition: "left .2s ease",
+							boxShadow: "0 1px 2px rgba(0,0,0,0.2)"
+						}
+					})
+				})]
+			});
+		}
+		/** 注册外观开关行；settings.general.item 未声明时 inject 会静默等待，不抛错。 */
+		function installToggleRow(ctx) {
+			ctx.slots.inject("settings.general.item", () => ctx.slots.register({
+				name: "settings.general.item",
+				id: "taffy-theme-toggle",
+				order: 20
+			}, TaffyToggleRow));
+		}
+		/**
+		 * Client plugin body: 按持久化开关挂载/卸载皮肤，并注册外观开关行。
+		 * @param ctx - client root context.
+		 * @returns disposer removing the token layer、observer 与开关监听。
+		 */
+		function apply(ctx) {
+			let disposeSkin = () => {};
+			const mount = () => { disposeSkin = mountSkin(ctx); };
+			if (skinEnabled) mount();
+			const onToggle = (v) => {
+				if (v) mount();
+				else { disposeSkin(); disposeSkin = () => {}; }
+			};
+			skinListeners.add(onToggle);
+			installToggleRow(ctx);
+			return () => {
+				skinListeners.delete(onToggle);
+				disposeSkin();
 			};
 		}
 		//#endregion
